@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 function App() {
 
   const[nomeLugar, setNomeLugar] = useState("")
+  const[nomeLugar2, setNomeLugar2] = useState("")
   const[descricaoLugar, setDescricaoLugar] = useState("")
   const[enderecoLugar, setEnderecoLugar] = useState('')
   const[estadoLugar, setEstadoLugar] = useState('')
@@ -29,11 +30,18 @@ function App() {
   };
 
 
-  const deleteLugar = (nomeL) => {
+  const deleteLugar = (nomeL) => { //deletar um ponto
 
     Axios.delete(`http://localhost:3001/api/delete/${nomeL}`);
   }
 
+  const searchLugar = () =>{
+    listaPontos.map((val) =>{
+      if(nomeLugar2 == val.nome){
+        alert("Nome: " + val.nome + " | Descrição: " + val.descricao + " | Endereço: " + val.endereco + " | Estado: " + val.estado + " | Cidade: " + val.cidade);
+      }
+    })
+  }
 
   
 
@@ -74,15 +82,17 @@ function App() {
 
                 <h2>Listagem de Pontos Turisticos</h2>
 
-                {listaPontos.map((val) => {
+                {listaPontos.map((val) => { //listar os pontos turísticos
                   return <div className="card"> <h1> {val.nome}  </h1> <p> Descrição: {val.descricao} </p> <p> Endereço: {val.endereco} </p> <p> Estado: {val.estado} </p> <p> Cidade: {val.cidade} </p>
                     <button onClick={() => {deleteLugar(val.nome)}}>Deletar</button>
                   </div>
                 })}
 
-                <div id="container1">
-                  
-                </div>
+                <h2>Buscar Ponto Turístico</h2>
+                <input type="text" name="nomeLugar2" onChange={(e) =>{
+                  setNomeLugar2(e.target.value);
+                }}></input>
+                <button onClick={searchLugar}>Buscar</button>
 
               </div>
             </div>
